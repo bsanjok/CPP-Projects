@@ -6,7 +6,7 @@
 /*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:37:38 by sbhatta           #+#    #+#             */
-/*   Updated: 2023/09/11 18:57:20 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/11 19:22:42 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,14 @@ void PhoneBook::getContact( )
 {
     int entered;
     
+    std::cout << "Index     |First Name|Last Name |Nickname  " << std::endl;
     for(int index = 0; index < 8; index++)
     {
-        std::cout << "First Name: " << _contactArray[index].getVar("fname") << std::endl;
-        std::cout << "Last Name: " << _contactArray[index].getVar("lname") << std::endl;
-        std::cout << "Nickname: " << _contactArray[index].getVar("nname") << std::endl;
-        std::cout << "Phone Number: " << _contactArray[index].getVar("pnum") << std::endl;
-        std::cout << "Dark Secrets: " << _contactArray[index].getVar("dsecr") << std::endl << std::endl;
+        std::cout << index + 1 << "|" << _contactArray[index].getVar("fname") << "|" << _contactArray[index].getVar("lname") << "|" << _contactArray[index].getVar("nname") << "|" << _contactArray[index].getVar("pnum")  << "|" << _contactArray[index].getVar("dsecr") << std::endl << std::endl;
     }
     std::cout << "Enter Index: ";
     std::cin >> entered;
-    if (entered >= 0 && entered <= 8)
+    if (entered > 0 && entered <= 8)
     {
         std::cout << "First Name: " << _contactArray[entered - 1].getVar("fname") << std::endl;
         std::cout << "Last Name: " << _contactArray[entered - 1].getVar("lname") << std::endl;
@@ -64,9 +61,9 @@ void PhoneBook::getContact( )
 
 void PhoneBook::printWelcome( void )
 {
-    std::cout << "ADD: save a new contact" << std::endl;
-    std::cout << "SEARCH: display a specific contact" << std::endl;
-    std::cout << "EXIT: The program quits and the contacts are lost forever!" << std::endl;
+    std::cout << "[ADD] saves a new contact." << std::endl;
+    std::cout << "[SEARCH] displays a specific contact." << std::endl;
+    std::cout << "[EXIT] Program quits and the contacts are lost forever!" << std::endl << std::endl;
 }
 
 int PhoneBook::checkCommand(int index)
