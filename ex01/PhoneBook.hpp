@@ -6,7 +6,7 @@
 /*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:29:39 by sbhatta           #+#    #+#             */
-/*   Updated: 2023/09/11 18:54:59 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/12 17:48:45 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHONEBOOK_H
 # include "Contact.hpp"
 # include <iostream>
+# include <iomanip>
 
 class PhoneBook {
 	
@@ -21,10 +22,12 @@ class PhoneBook {
     PhoneBook( void );
     ~PhoneBook( void );
     
-    void    setContact(int index);
-    void    getContact( void );
+    int     setContact(int index);
+    int     getContact( void );
     void    printWelcome( void );
-    int    checkCommand(int index);
+    int     checkCommand(int index);
+    void    formatContact(int index, std::string fname, std::string lname, std::string nname);
+    int     is_number(std::string str);
 	
 	private:
     Contact _contactArray[8];

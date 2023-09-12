@@ -6,7 +6,7 @@
 /*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:43:10 by sbhatta           #+#    #+#             */
-/*   Updated: 2023/09/11 18:04:22 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/12 18:00:56 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,56 @@
 
 Contact::Contact( )
 {
-	// std::cout << "Constructor was called!" << std::endl;
-	// return;
+
 }
 
 Contact::~Contact()
 {
-	// std::cout << "Destructor was called!" << std::endl;
-	// return;
+
 }
 
-void	Contact::setVar(std::string flag)
+int	Contact::var_in(std::string *var, std::string title)
 {
-	if (flag == "lname")
-		std::cin >> _last_name;
-	else if (flag == "fname")
-		std::cin >> _first_name;
+	getline(std::cin, *var);
+	if (std::cin.eof())
+		return (0);
+	if ((*var).empty())
+	{
+		std::cout << title << " cannot be empty. Please enter again!" << std::endl;
+		std::cout << title << ": ";
+		var_in(var, title);
+	}
+	return (1);
+}
+
+int	Contact::setVar(std::string flag)
+{
+	if (flag == "fname")
+	{
+		if(var_in(&_first_name, "First Name") == 0)
+			return (0);
+	}
+	else if (flag == "lname")
+	{
+		if(var_in(&_last_name, "Last Name") == 0)
+			return (0);
+	}
 	else if (flag == "nname")
-		std::cin >> _nickname;
+	{
+		if(var_in(&_nickname, "Nickname") == 0)
+			return (0);
+	}
 	else if (flag == "pnum")
-		std::cin >> _phone_number;
+	{
+		if(var_in(&_phone_number, "Phone") == 0)
+			return (0);
+	}
 	else if (flag == "dsecr")
-		std::cin >> _darkest_secret;
+	{
+		if (var_in(&_darkest_secret, "Darkest Secrets") == 0)
+			return (0);
+	}
+	return (1);
 }
 
 std::string	Contact::getVar(std::string flag)

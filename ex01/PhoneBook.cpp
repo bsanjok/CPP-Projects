@@ -6,7 +6,7 @@
 /*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:37:38 by sbhatta           #+#    #+#             */
-/*   Updated: 2023/09/11 19:22:42 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/12 17:50:04 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,105 @@ PhoneBook::~PhoneBook()
     
 }
 
-void PhoneBook::setContact(int index)
+int PhoneBook::setContact(int index)
 {
     std::cout << "Enter First Name: ";
-    _contactArray[index].setVar("fname");
+    if(_contactArray[index].setVar("fname") == 0)
+        return (0);
     std::cout << "Enter Last Name: ";
-    _contactArray[index].setVar("lname");
+    if(_contactArray[index].setVar("lname") == 0)
+        return (0);
     std::cout << "Enter Nickname: ";
-    _contactArray[index].setVar("nname");
+    if(_contactArray[index].setVar("nname") == 0)
+        return (0);
     std::cout << "Enter Phone Number: ";
-    _contactArray[index].setVar("pnum");
+    if(_contactArray[index].setVar("pnum") == 0)
+        return (0);
     std::cout << "Enter Your Darkest Secrets: ";
-    _contactArray[index].setVar("dsecr");
+    if (_contactArray[index].setVar("dsecr") == 0)
+        return (0);
+    return (1);
 }
 
-void PhoneBook::getContact( )
+void PhoneBook::formatContact(int index, std::string fname, std::string lname, std::string nname)
 {
-    int entered;
+    std::cout.setf(std::ios::right);
+    std::cout  << "|" << std::setfill(' ') << std::setw(10) << index + 1 << "|";
+    if (fname.size() <= 10)
+        std::cout << std::setfill(' ') << std::setw(10) <<  fname << "|";
+    else
+        std::cout << fname.substr(0, 9).append(".") << "|";
+    if (lname.size() <= 10)
+        std::cout << std::setfill(' ') << std::setw(10) << lname << "|";
+    else
+        std::cout << lname.substr(0, 9).append(".") << "|";
+    if (nname.size() <= 10)
+        std::cout << std::setfill(' ') << std::setw(10) << nname << "|";
+    else
+        std::cout << nname.substr(0, 9).append(".") << "|";
+    std::cout << std::endl;
+}
+
+int PhoneBook::is_number(std::string str)
+{
+    std::string::iterator it;
+
+    for(it = str.begin(); it < str.end(); it++)
+    {
+        if (!isdigit(*it))
+            return (0);
+    }
+    return (1);
+}
+
+int PhoneBook::getContact( )
+{
+    std::string entered;
+    int index;
     
-    std::cout << "Index     |First Name|Last Name |Nickname  " << std::endl;
+    std::cout << "|     Index|First Name| Last Name|  Nickname|" << std::endl;
+    std::cout << "---------------------------------------------" << std::endl;
     for(int index = 0; index < 8; index++)
     {
-        std::cout << index + 1 << "|" << _contactArray[index].getVar("fname") << "|" << _contactArray[index].getVar("lname") << "|" << _contactArray[index].getVar("nname") << "|" << _contactArray[index].getVar("pnum")  << "|" << _contactArray[index].getVar("dsecr") << std::endl << std::endl;
+        if (_contactArray[index].getVar("fname").empty())
+            break ;
+        formatContact(index, _contactArray[index].getVar("fname"), \
+        _contactArray[index].getVar("lname"), \
+        _contactArray[index].getVar("nname"));
     }
-    std::cout << "Enter Index: ";
+    std::cout << "Index: ";
     std::cin >> entered;
-    if (entered > 0 && entered <= 8)
-    {
-        std::cout << "First Name: " << _contactArray[entered - 1].getVar("fname") << std::endl;
-        std::cout << "Last Name: " << _contactArray[entered - 1].getVar("lname") << std::endl;
-        std::cout << "Nickname: " << _contactArray[entered - 1].getVar("nname") << std::endl;
-        std::cout << "Phone Number: " << _contactArray[entered - 1].getVar("pnum") << std::endl;
-        std::cout << "Dark Secrets: " << _contactArray[entered - 1].getVar("dsecr") << std::endl << std::endl;
-    }
+    if (std::cin.eof())
+		return (0);
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    if(!is_number(entered))
+        std::cout << "Enter positive index number!" << std::endl;
     else
-        std::cout << "Entered index is out of scope. Please try again!" << std::endl;
+    {
+        index = std::stoi(entered);
+        std::cout << std::endl;
+        if (index > 0 && index <= 8)
+        {
+            if (_contactArray[index - 1].getVar("fname").empty())
+                std::cout << "Entered index is out of scope. Please try again!" << std::endl;
+            else
+            {
+                std::cout << "First Name: " << _contactArray[index - 1].getVar("fname") << std::endl;
+                std::cout << "Last Name: " << _contactArray[index - 1].getVar("lname") << std::endl;
+                std::cout << "Nickname: " << _contactArray[index - 1].getVar("nname") << std::endl;
+                std::cout << "Phone Number: " << _contactArray[index - 1].getVar("pnum") << std::endl;
+                std::cout << "Dark Secrets: " << _contactArray[index - 1].getVar("dsecr") << std::endl;
+            }
+        }
+        else
+            std::cout << "Entered index is out of scope. Please try again!" << std::endl;
+    }
+    return (1);
 }
 
 void PhoneBook::printWelcome( void )
 {
-    std::cout << "[ADD] saves a new contact." << std::endl;
+    std::cout << std::endl << "[ADD] saves a new contact." << std::endl;
     std::cout << "[SEARCH] displays a specific contact." << std::endl;
     std::cout << "[EXIT] Program quits and the contacts are lost forever!" << std::endl << std::endl;
 }
@@ -72,17 +131,22 @@ int PhoneBook::checkCommand(int index)
 
     std::cout << "Enter Command: ";
     std::cin >> cmd;
+    if (std::cin.eof())
+		return (-1);
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     if (cmd == "ADD")
     {
-        setContact(index);
+        if (setContact(index) == 0)
+            return (-1);
+        std::cout << std::endl << "<<(RECORD SAVED)>>" << std::endl;
         return (1);
     }
     else if (cmd == "SEARCH")
     {
-        getContact();
-        return (0);
+        if (getContact() == 0)
+            return (-1);
     }
     else if (cmd == "EXIT")
-        exit (0);
+        return -1;
     return (0);
 }
