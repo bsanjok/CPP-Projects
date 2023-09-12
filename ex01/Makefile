@@ -1,6 +1,6 @@
 CC = c++ -Wall -Wextra -Werror -std=c++98
 
-NAME = myphonebook
+NAME = phonebook
 SRC = ./Contact.cpp ./main.cpp ./PhoneBook.cpp
 OBJ	= $(SRC:.cpp=.o)
 

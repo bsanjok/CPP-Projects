@@ -6,7 +6,7 @@
 /*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:37:38 by sbhatta           #+#    #+#             */
-/*   Updated: 2023/09/12 17:50:04 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/12 18:12:50 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int PhoneBook::setContact(int index)
     return (1);
 }
 
-void PhoneBook::formatContact(int index, std::string fname, std::string lname, std::string nname)
+void PhoneBook::_formatContact(int index, std::string fname, std::string lname, std::string nname)
 {
     std::cout.setf(std::ios::right);
     std::cout  << "|" << std::setfill(' ') << std::setw(10) << index + 1 << "|";
@@ -61,7 +61,7 @@ void PhoneBook::formatContact(int index, std::string fname, std::string lname, s
     std::cout << std::endl;
 }
 
-int PhoneBook::is_number(std::string str)
+int PhoneBook::_is_number(std::string str)
 {
     std::string::iterator it;
 
@@ -84,7 +84,7 @@ int PhoneBook::getContact( )
     {
         if (_contactArray[index].getVar("fname").empty())
             break ;
-        formatContact(index, _contactArray[index].getVar("fname"), \
+        _formatContact(index, _contactArray[index].getVar("fname"), \
         _contactArray[index].getVar("lname"), \
         _contactArray[index].getVar("nname"));
     }
@@ -93,7 +93,7 @@ int PhoneBook::getContact( )
     if (std::cin.eof())
 		return (0);
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    if(!is_number(entered))
+    if(!_is_number(entered))
         std::cout << "Enter positive index number!" << std::endl;
     else
     {
