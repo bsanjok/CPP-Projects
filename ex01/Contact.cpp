@@ -6,21 +6,15 @@
 /*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:43:10 by sbhatta           #+#    #+#             */
-/*   Updated: 2023/09/12 18:06:07 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/17 13:15:52 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Contact.hpp"
 
-Contact::Contact( )
-{
+Contact::Contact( ){}
 
-}
-
-Contact::~Contact()
-{
-
-}
+Contact::~Contact(){}
 
 int	Contact::_var_in(std::string *var, std::string title)
 {
