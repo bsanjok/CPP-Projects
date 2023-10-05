@@ -97,7 +97,8 @@ int PhoneBook::getContact( )
         std::cout << "Enter positive index number!" << std::endl;
     else
     {
-        index = std::stoi(entered);
+	std::istringstream ss(entered);
+        ss >> index;
         std::cout << std::endl;
         if (index > 0 && index <= 8)
         {
